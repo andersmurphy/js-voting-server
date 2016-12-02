@@ -1,4 +1,4 @@
-import {List} from 'immutable'
+import {List, Map} from 'immutable'
 
 describe('immutability', () => {
 
@@ -34,6 +34,36 @@ describe('immutability', () => {
         'Trainspotting',
         '28 Days Later'
       ))
+    })
+  })
+
+  describe('a tree', () => {
+    function addMovie(currentState, movie) {
+      return currentState.set(
+        'movies',
+        currentState.get('movies').push(movie)
+      )
+    }
+
+    it('is immutable', () => {
+      const state = Map({
+        movies: List.of('Trainspotting', '28 Days Later')
+      })
+      const nextState = addMovie(state, 'Sunshine')
+
+      expect(nextState).toEqual(Map({
+        movies: List.of(
+          'Trainspotting',
+          '28 Days Later',
+          'Sunshine'
+        )
+      }))
+      expect(state).toEqual(Map({
+        movies: List.of(
+          'Trainspotting',
+          '28 Days Later'
+        )
+      }))
     })
   })
 })
