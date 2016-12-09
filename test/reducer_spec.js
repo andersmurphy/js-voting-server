@@ -57,6 +57,17 @@ describe('reducer', () => {
     }))
   })
 
+  it('unspecified actions dont change the state', () => {
+    const initialState = fromJS({
+          entries: ['Trainspotting', '28 Days Later']
+        })
+    const action = {type: 'UNSPECIFIED'}
+    const nextState = reducer(initialState, action);
+    expect(nextState).to.equal(fromJS({
+        entries: ['Trainspotting', '28 Days Later']
+      }))
+  })
+
   it('can be used with reduce', () => {
     const actions = [
       {type: 'SET_ENTRIES', entries: ['Trainspotting', '28 Days Later']},

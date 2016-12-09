@@ -1,14 +1,12 @@
 import {setEntries, next, vote, INITAL_STATE} from './core'
+import {Map} from 'immutable'
 
-export default function reducer(state = INITAL_STATE, action) {
-  switch (action.type) {
-    case 'SET_ENTRIES':
-        return setEntries(state, action.entries)
-    case 'NEXT':
-        return next(state)
-    case 'VOTE':
-        return state.update('vote',
-          voteState => vote(voteState, action.entry))
-  }
-  return state
+const actions = Map({
+  'SET_ENTRIES': (state, action) => setEntries(state, action.entries),
+  'NEXT': next,
+  'VOTE': (state, action) => state.update('vote', voteState => vote(voteState, action.entry))
+})
+
+export default (state = INITAL_STATE, action) => {
+  return actions.get(action.type, () => state)(state, action)
 }
